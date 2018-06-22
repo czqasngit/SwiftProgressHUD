@@ -324,7 +324,6 @@
 				6304F8A91EFA1016001379B1 /* Frameworks */,
 				6304F8AA1EFA1016001379B1 /* Resources */,
 				77A0BC52B42C32956EEBD7C7 /* [CP] Embed Pods Frameworks */,
-				CD666E2D29F2FF276B5E09FD /* [CP] Copy Pods Resources */,
 				639064E31F0639FB00562407 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -463,28 +462,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SwiftProgressHUDDemo/Pods-SwiftProgressHUDDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CommonParameter/CommonParameter.framework",
+				"${BUILT_PRODUCTS_DIR}/YJSwiftExtensions/YJSwiftExtensions.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CommonParameter.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YJSwiftExtensions.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftProgressHUDDemo/Pods-SwiftProgressHUDDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CD666E2D29F2FF276B5E09FD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftProgressHUDDemo/Pods-SwiftProgressHUDDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CD75CE677C5F110DA5D3F6F5 /* [CP] Check Pods Manifest.lock */ = {
@@ -493,13 +484,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SwiftProgressHUDDemo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
