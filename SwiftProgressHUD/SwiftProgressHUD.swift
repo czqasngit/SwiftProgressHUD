@@ -9,7 +9,7 @@
 import UIKit
 
 /// Current_Version：0.0.6
-/// Github地址: https://github.com/stackhou/SwiftProgressHUD
+/// Github: https://github.com/stackhou/SwiftProgressHUD
 
 private let yj_topBarTag: Int = 1001
 private let yj_showHUDBackColor = UIColor(red:0, green:0, blue:0, alpha: 0.8)
@@ -47,70 +47,79 @@ public class SwiftProgressHUD {
         return nil
     }
     
+    /// Wait for loading with text
+    @discardableResult
+    public class func showWaitWithText(_ text: String, autoClear: Bool = false, autoClearTime: Double = 3, runable: (() -> ())? = nil) -> UIWindow? {
+        if let _ = UIApplication.shared.keyWindow {
+            return SwiftProgress.showWaitWithText(text, autoClear: autoClear, autoClearTime: autoClearTime, runable: runable)
+        }
+        return nil
+    }
+    
     /// Success
     @discardableResult
-    public class func showSuccess(_ text: String, autoClear: Bool = false, autoClearTime: Int = 3) -> UIWindow? {
+    public class func showSuccess(_ text: String, autoClear: Bool = true, autoClearTime: Double = 3, runable: (() -> ())? = nil) -> UIWindow? {
         if let _ = UIApplication.shared.keyWindow {
-            return SwiftProgress.showNoticeWithText(SwiftProgressHUDType.success, text: text, autoClear: autoClear, autoClearTime: autoClearTime)
+            return SwiftProgress.showNoticeWithText(SwiftProgressHUDType.success, text: text, autoClear: autoClear, autoClearTime: autoClearTime, runable: runable)
         }
         return nil
     }
     
     /// Fail
     @discardableResult
-    public class func showFail(_ text: String, autoClear: Bool = false, autoClearTime: Int = 3) -> UIWindow? {
+    public class func showFail(_ text: String, autoClear: Bool = true, autoClearTime: Double = 3, runable: (() -> ())? = nil) -> UIWindow? {
         if let _ = UIApplication.shared.keyWindow {
-            return SwiftProgress.showNoticeWithText(SwiftProgressHUDType.fail, text: text, autoClear: autoClear, autoClearTime: autoClearTime)
+            return SwiftProgress.showNoticeWithText(SwiftProgressHUDType.fail, text: text, autoClear: autoClear, autoClearTime: autoClearTime, runable: runable)
         }
         return nil
     }
     
     /// Hint information
     @discardableResult
-    public class func showInfo(_ text: String, autoClear: Bool = false, autoClearTime: Int = 3) -> UIWindow? {
+    public class func showInfo(_ text: String, autoClear: Bool = true, autoClearTime: Double = 3, runable: (() -> ())? = nil) -> UIWindow? {
         if let _ = UIApplication.shared.keyWindow {
-            return SwiftProgress.showNoticeWithText(SwiftProgressHUDType.info, text: text, autoClear: autoClear, autoClearTime: autoClearTime)
+            return SwiftProgress.showNoticeWithText(SwiftProgressHUDType.info, text: text, autoClear: autoClear, autoClearTime: autoClearTime, runable: runable)
         }
         return nil
     }
     
     /// Prompt free type
     @discardableResult
-    public class func show(_ text: String, type: SwiftProgressHUDType, autoClear: Bool, autoClearTime: Int = 3) -> UIWindow? {
+    public class func show(_ text: String, type: SwiftProgressHUDType, autoClear: Bool, autoClearTime: Double = 3, runable: (() -> ())? = nil) -> UIWindow? {
         if let _ = UIApplication.shared.keyWindow {
-            return SwiftProgress.showNoticeWithText(type, text: text, autoClear: autoClear, autoClearTime: autoClearTime)
+            return SwiftProgress.showNoticeWithText(type, text: text, autoClear: autoClear, autoClearTime: autoClearTime, runable: runable)
         }
         return nil
     }
     
     /// Only display text
     @discardableResult
-    public class func showOnlyText(_ text: String) -> UIWindow? {
+    public class func showOnlyText(_ text: String, runable: (() -> ())? = nil) -> UIWindow? {
         if let _ = UIApplication.shared.keyWindow {
-            return SwiftProgress.showText(text)
+            return SwiftProgress.showText(text, runable: runable)
         }
         return nil
     }
     
     /// Status bar prompt
     @discardableResult
-    public class func showOnNavigation(_ text: String, autoClear: Bool = true, autoClearTime: Int = 1, textColor: UIColor = UIColor.black, fontSize:CGFloat = 13, backgroundColor: UIColor = UIColor.white) -> UIWindow? {
+    public class func showOnNavigation(_ text: String, autoClear: Bool = true, autoClearTime: Double = 1, textColor: UIColor = UIColor.black, fontSize:CGFloat = 13, backgroundColor: UIColor = UIColor.white, runable: (() -> ())? = nil) -> UIWindow? {
         if let _ = UIApplication.shared.keyWindow {
             
-            return SwiftProgress.noticeOnNavigationBar(text, autoClear: autoClear, autoClearTime: autoClearTime, textColor: textColor, fontSize: fontSize, backgroundColor: backgroundColor)
+            return SwiftProgress.noticeOnNavigationBar(text, autoClear: autoClear, autoClearTime: autoClearTime, textColor: textColor, fontSize: fontSize, backgroundColor: backgroundColor, runable: runable)
         }
         return nil
     }
     
     /// Animated picture array
     @discardableResult
-    public class func showAnimationImages(_ imageNames: Array<UIImage>, timeMilliseconds: Int, backgroundColor: UIColor = UIColor.clear, scale: Double = 1.0) -> UIWindow? {
+    public class func showAnimationImages(_ imageNames: Array<UIImage>, timeMilliseconds: Int, backgroundColor: UIColor = UIColor.clear, scale: Double = 1.0, runable: (() -> ())? = nil) -> UIWindow? {
         if let _ = UIApplication.shared.keyWindow {
             return SwiftProgress.wait(imageNames, timeMilliseconds: timeMilliseconds, backgroundColor: backgroundColor, scale: scale)
         }
         return nil
     }
-
+    
     /// Clear all
     public class func hideAllHUD() {
         SwiftProgress.clear()
@@ -146,7 +155,7 @@ class SwiftProgress: NSObject {
     }
     
     @discardableResult
-    static func noticeOnNavigationBar(_ text: String, autoClear: Bool, autoClearTime: Int, textColor: UIColor, fontSize:CGFloat, backgroundColor: UIColor) -> UIWindow{
+    static func noticeOnNavigationBar(_ text: String, autoClear: Bool, autoClearTime: Double, textColor: UIColor, fontSize:CGFloat, backgroundColor: UIColor, runable: (() -> ())? = nil) -> UIWindow{
         let statusBarFrame = UIApplication.shared.statusBarFrame
         let frame = CGRect(x: 0, y: 0, width: statusBarFrame.width, height: (statusBarFrame.height + 44))
         let window = UIWindow()
@@ -169,10 +178,10 @@ class SwiftProgress: NSObject {
             // change center
             var array = [UIScreen.main.bounds.width, UIScreen.main.bounds.height]
             array = array.sorted(by: <)
-            let screenWidth = array[0]
-            let screenHeight = array[1]
-            let x = [0, screenWidth/2, screenWidth/2, 10, screenWidth-10][UIApplication.shared.statusBarOrientation.hashValue] as CGFloat
-            let y = [0, 10, screenHeight-10, screenHeight/2, screenHeight/2][UIApplication.shared.statusBarOrientation.hashValue] as CGFloat
+            let kScreenWidth = array[0]
+            let kScreenHeight = array[1]
+            let x = [0, kScreenWidth/2, kScreenWidth/2, 10, kScreenWidth-10][UIApplication.shared.statusBarOrientation.hashValue] as CGFloat
+            let y = [0, 10, kScreenHeight-10, kScreenHeight/2, kScreenHeight/2][UIApplication.shared.statusBarOrientation.hashValue] as CGFloat
             window.center = CGPoint(x: x, y: y)
             
             // change direction
@@ -195,7 +204,7 @@ class SwiftProgress: NSObject {
         }, completion: { b in
             if autoClear {
                 
-                DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + .seconds(autoClearTime), execute: {
+                DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + autoClearTime, execute: {
                     DispatchQueue.main.async {
                         UIView.animate(withDuration: 0.3, animations: {
                             /// Vanishing animation
@@ -203,6 +212,7 @@ class SwiftProgress: NSObject {
                         }, completion: { (b) in
                             let selector = #selector(SwiftProgress.hideNotice(_:))
                             self.perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
+                            runable?()
                         })
                     }
                 })
@@ -235,6 +245,7 @@ class SwiftProgress: NSObject {
                 iv.contentMode = UIViewContentMode.scaleAspectFit
                 mainView.addSubview(iv)
                 timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags(rawValue: UInt(0)), queue: DispatchQueue.main) as! DispatchSource
+                //timer.schedule(deadline: DispatchTime.now(), repeating: DispatchTimeInterval.milliseconds(timeMilliseconds))
                 timer.scheduleRepeating(deadline: DispatchTime.now(), interval: DispatchTimeInterval.milliseconds(timeMilliseconds))
                 timer.setEventHandler(handler: { () -> Void in
                     let name = imageNames[timerTimes % imageNames.count]
@@ -275,7 +286,7 @@ class SwiftProgress: NSObject {
     }
     
     @discardableResult
-    static func showText(_ text: String, autoClear: Bool=true, autoClearTime: Int = 2) -> UIWindow {
+    static func showText(_ text: String, autoClear: Bool = true, autoClearTime: Double = 2, runable: (() -> ())? = nil) -> UIWindow {
         let window = UIWindow()
         window.backgroundColor = hudBackgroundColor
         window.rootViewController = UIViewController()
@@ -294,7 +305,7 @@ class SwiftProgress: NSObject {
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = NSTextAlignment.center
         label.textColor = UIColor.white
-        let size = label.sizeThatFits(CGSize(width: UIScreen.main.bounds.width-82, height: CGFloat.greatestFiniteMagnitude))
+        let size = label.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 82, height: CGFloat.greatestFiniteMagnitude))
         label.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         mainView.addSubview(label)
         
@@ -322,18 +333,19 @@ class SwiftProgress: NSObject {
         if autoClear {
             let selector = #selector(SwiftProgress.hideNotice(_:))
             self.perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
+            runable?()
         }
         return window
     }
     
     @discardableResult
-    static func showNoticeWithText(_ type: SwiftProgressHUDType,text: String, autoClear: Bool, autoClearTime: Int) -> UIWindow {
-        let frame = CGRect(x: 0, y: 0, width: 90, height: 90)
+    static func showNoticeWithText(_ type: SwiftProgressHUDType,text: String, autoClear: Bool, autoClearTime: Double, runable: (() -> ())? = nil) -> UIWindow {
+        var frame = CGRect(x: 0, y: 0, width: 90, height: 90)
         let window = UIWindow()
         window.backgroundColor = hudBackgroundColor
         window.rootViewController = UIViewController()
         let mainView = UIView()
-        mainView.layer.cornerRadius = 10
+        mainView.layer.cornerRadius = 8
         mainView.backgroundColor = yj_showHUDBackColor
         
         /// add tapGesture
@@ -359,6 +371,27 @@ class SwiftProgress: NSObject {
         label.textColor = UIColor.white
         label.text = text
         label.textAlignment = NSTextAlignment.center
+        label.lineBreakMode = .byTruncatingMiddle
+        label.textAlignment = NSTextAlignment.center
+        label.numberOfLines = 0
+        
+        var size = label.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 82, height: CGFloat.greatestFiniteMagnitude))
+        
+        //  如果字符串的长度大于原有预计的90 需要重新进行计算
+        if size.width > 90 {
+            label.frame.origin.x = 5
+            label.frame.size.width = size.width
+            if Int(size.height) % 16 != 0 {
+                let ratio = Int(size.height) / 16 + 2
+                size.height = CGFloat(ratio) * 16
+            }
+            label.frame.size.height = size.height
+            frame.size.width = size.width + 10
+            frame.size.height = size.height + label.frame.minY + 5
+            checkmarkView.frame.origin.x = (frame.width - checkmarkView.frame.width) / 2
+            
+        }
+        
         mainView.addSubview(label)
         
         window.frame = rv!.bounds
@@ -387,12 +420,90 @@ class SwiftProgress: NSObject {
         if autoClear {
             let selector = #selector(SwiftProgress.hideNotice(_:))
             self.perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
+            runable?()
+        }
+        return window
+    }
+    
+    @discardableResult
+    static func showWaitWithText(_ text: String, autoClear: Bool, autoClearTime: Double, runable: (() -> ())? = nil) -> UIWindow {
+        var frame = CGRect(x: 0, y: 0, width: 90, height: 90)
+        let window = UIWindow()
+        window.backgroundColor = hudBackgroundColor
+        window.rootViewController = UIViewController()
+        let mainView = UIView()
+        mainView.layer.cornerRadius = 8
+        mainView.backgroundColor = yj_showHUDBackColor
+        
+        /// add tapGesture
+        let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(tapHideGesture(gesture:)))
+        tapGesture.numberOfTapsRequired = hideHUDTaps
+        window.addGestureRecognizer(tapGesture)
+        
+        let ai = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        ai.frame = CGRect(x: 27, y: 15, width: 36, height: 36)
+        ai.startAnimating()
+        mainView.addSubview(ai)
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 60, width: 90, height: 16))
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.white
+        label.text = text
+        label.lineBreakMode = .byTruncatingMiddle
+        label.textAlignment = NSTextAlignment.center
+        label.numberOfLines = 0
+        
+        var size = label.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 82, height: CGFloat.greatestFiniteMagnitude))
+        
+        //  如果字符串的长度大于原有预计的90 需要重新进行计算
+        if size.width > 90 {
+            label.frame.origin.x = 5
+            label.frame.size.width = size.width
+            if Int(size.height) % 16 != 0 {
+                let ratio = Int(size.height) / 16 + 2
+                size.height = CGFloat(ratio) * 16
+            }
+            label.frame.size.height = size.height
+            frame.size.width = size.width + 10
+            frame.size.height = size.height + label.frame.minY + 5
+            ai.frame.origin.x = (frame.width - ai.frame.width) / 2
+        }
+        
+        mainView.addSubview(label)
+        
+        window.frame = rv!.bounds
+        mainView.frame = frame
+        mainView.center = rv!.center
+        
+        if let version = Double(UIDevice.current.systemVersion),
+            version < 9.0 {
+            // change center
+            window.center = getRealCenter()
+            // change direction
+            window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
+        }
+        
+        window.windowLevel = UIWindowLevelAlert
+        window.center = rv!.center
+        window.isHidden = false
+        window.addSubview(mainView)
+        windows.append(window)
+        
+        mainView.alpha = 0.0
+        UIView.animate(withDuration: 0.2, animations: {
+            mainView.alpha = 1
+        })
+        
+        if autoClear {
+            let selector = #selector(SwiftProgress.hideNotice(_:))
+            self.perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
+            runable?()
         }
         return window
     }
     
     /// Repair window has not been removed
-    static func hideNotice(_ sender: AnyObject) {
+    @objc static func hideNotice(_ sender: AnyObject) {
         if let window = sender as? UIWindow {
             
             if let v = window.subviews.first {
@@ -521,3 +632,4 @@ extension UIWindow{
         SwiftProgress.hideNotice(self)
     }
 }
+

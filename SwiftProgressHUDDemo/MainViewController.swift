@@ -66,7 +66,7 @@ extension MainViewController {
     }
     
     /// 点击事件
-    func showBtnActionClick(btn: UIButton) {
+    @objc func showBtnActionClick(btn: UIButton) {
         let btnTag = btn.tag
         if btnTag == 1 { // wait
             
