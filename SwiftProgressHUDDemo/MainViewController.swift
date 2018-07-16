@@ -206,7 +206,7 @@ extension MainViewController {
     
     // MARK: - 状态栏的显示
     override var preferredStatusBarStyle: UIStatusBarStyle{
-        return .default;
+        return .lightContent;
     }
     
     override var prefersStatusBarHidden: Bool{
@@ -235,6 +235,8 @@ extension MainViewController {
     
     
 }
+
+
 
 
 
