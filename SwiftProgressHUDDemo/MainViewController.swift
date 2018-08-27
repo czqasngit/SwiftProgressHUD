@@ -66,7 +66,7 @@ extension MainViewController {
     }
     
     /// 点击事件
-    func showBtnActionClick(btn: UIButton) {
+    @objc func showBtnActionClick(btn: UIButton) {
         let btnTag = btn.tag
         if btnTag == 1 { // wait
             
@@ -83,12 +83,15 @@ extension MainViewController {
             
         }else if btnTag == 2 { // success
             
-            SwiftProgressHUD.showSuccess("加载成功")
+            //SwiftProgressHUD.showSuccess("加载成功加载成功加载成功加载成功加载成功加载成功加载成功加载成功加载成功")
+            SwiftProgressHUD.showSuccess("啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈", autoClear: true, autoClearTime: 10) {
+                print("runable")
+            }
             
             /// 模拟 1s后 加载完成
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                SwiftProgressHUD.hideAllHUD()
-            }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                SwiftProgressHUD.hideAllHUD()
+//            }
         
         }else if btnTag == 3 { // fail
             
