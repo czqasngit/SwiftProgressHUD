@@ -132,8 +132,8 @@ class SwiftProgress: NSObject {
     
     static var hudBackgroundColor: UIColor = UIColor.clear
     static var hideHUDTaps: Int = 2
-    static var windows = Array<UIWindow!>()
-    static let rv = UIApplication.shared.keyWindow?.subviews.first as UIView!
+    static var windows = Array<UIWindow??>()
+    static let rv = UIApplication.shared.keyWindow?.subviews.first as UIView?
     static var timer: DispatchSource!
     static var timerTimes = 0
     
@@ -159,7 +159,7 @@ class SwiftProgress: NSObject {
         let statusBarFrame = UIApplication.shared.statusBarFrame
         let frame = CGRect(x: 0, y: 0, width: statusBarFrame.width, height: (statusBarFrame.height + 44))
         let window = UIWindow()
-        window.rootViewController = UIViewController()
+        window.rootViewController = UIViewController.currentViewController()
         window.backgroundColor = UIColor.clear
         let view = UIView()
         view.backgroundColor = backgroundColor
@@ -212,7 +212,10 @@ class SwiftProgress: NSObject {
                         }, completion: { (b) in
                             let selector = #selector(SwiftProgress.hideNotice(_:))
                             self.perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
-                            runable?()
+                            //  延时操作
+                            DispatchQueue.main.asyncAfter(deadline: .now() + autoClearTime) {
+                                runable?()
+                            }
                         })
                     }
                 })
@@ -226,7 +229,7 @@ class SwiftProgress: NSObject {
         let frame = CGRect(x: 0, y: 0, width: 78, height: 78)
         let window = UIWindow()
         window.backgroundColor = hudBackgroundColor
-        window.rootViewController = UIViewController()
+        window.rootViewController = UIViewController.currentViewController()
         let mainView = UIView()
         mainView.layer.cornerRadius = 12
         mainView.backgroundColor = backgroundColor
@@ -289,7 +292,7 @@ class SwiftProgress: NSObject {
     static func showText(_ text: String, autoClear: Bool = true, autoClearTime: Double = 2, runable: (() -> ())? = nil) -> UIWindow {
         let window = UIWindow()
         window.backgroundColor = hudBackgroundColor
-        window.rootViewController = UIViewController()
+        window.rootViewController = UIViewController.currentViewController()
         let mainView = UIView()
         mainView.layer.cornerRadius = 12
         mainView.backgroundColor = yj_showHUDBackColor
@@ -333,7 +336,11 @@ class SwiftProgress: NSObject {
         if autoClear {
             let selector = #selector(SwiftProgress.hideNotice(_:))
             self.perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
-            runable?()
+            
+            //  延时操作
+            DispatchQueue.main.asyncAfter(deadline: .now() + autoClearTime) {
+                runable?()
+            }
         }
         return window
     }
@@ -343,7 +350,7 @@ class SwiftProgress: NSObject {
         var frame = CGRect(x: 0, y: 0, width: 90, height: 90)
         let window = UIWindow()
         window.backgroundColor = hudBackgroundColor
-        window.rootViewController = UIViewController()
+        window.rootViewController = UIViewController.currentViewController()
         let mainView = UIView()
         mainView.layer.cornerRadius = 8
         mainView.backgroundColor = yj_showHUDBackColor
@@ -420,7 +427,10 @@ class SwiftProgress: NSObject {
         if autoClear {
             let selector = #selector(SwiftProgress.hideNotice(_:))
             self.perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
-            runable?()
+            //  延时操作
+            DispatchQueue.main.asyncAfter(deadline: .now() + autoClearTime) {
+                runable?()
+            }
         }
         return window
     }
@@ -497,7 +507,10 @@ class SwiftProgress: NSObject {
         if autoClear {
             let selector = #selector(SwiftProgress.hideNotice(_:))
             self.perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
-            runable?()
+            //  延时操作
+            DispatchQueue.main.asyncAfter(deadline: .now() + autoClearTime) {
+                runable?()
+            }
         }
         return window
     }
@@ -630,6 +643,22 @@ class SwiftProgressSDK {
 extension UIWindow{
     func hide(){
         SwiftProgress.hideNotice(self)
+    }
+}
+
+
+extension UIViewController {
+    class func currentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return currentViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            return currentViewController(base: tab.selectedViewController)
+        }
+        if let presented = base?.presentedViewController {
+            return currentViewController(base: presented)
+        }
+        return base
     }
 }
 

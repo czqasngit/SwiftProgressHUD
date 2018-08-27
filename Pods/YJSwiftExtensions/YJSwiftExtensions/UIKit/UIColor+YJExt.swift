@@ -72,7 +72,7 @@ public extension UIColor {
     
     /// 随机颜色颜色
     public static func yj_randomColor() -> UIColor{
-        let randomColor = UIColor(colorLiteralRed: Float(arc4random() % 255) / 255.0, green: Float(arc4random() % 255) / 255.0, blue: Float(arc4random() % 255) / 255.0, alpha: 1)
+        let randomColor = UIColor(red: CGFloat(arc4random() % 255) / 255.0, green: CGFloat(arc4random() % 255) / 255.0, blue: CGFloat(arc4random() % 255) / 255.0, alpha: 1.0)
         return randomColor
     }
 }
