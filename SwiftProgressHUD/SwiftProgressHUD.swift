@@ -187,8 +187,11 @@ class SwiftProgress: NSObject {
             // change direction
             window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
         }
-        
+    #if swift(>=4.2)
+        window.windowLevel = UIWindow.Level.statusBar
+    #else
         window.windowLevel = UIWindowLevelStatusBar
+    #endif
         window.isHidden = false
         window.addSubview(view)
         windows.append(window)
@@ -245,7 +248,11 @@ class SwiftProgress: NSObject {
             if imageNames.count > timerTimes {
                 let iv = UIImageView(frame: imgViewFrame)
                 iv.image = imageNames.first!
+            #if swift(>=4.2)
+                iv.contentMode = UIView.ContentMode.scaleAspectFit
+            #else
                 iv.contentMode = UIViewContentMode.scaleAspectFit
+            #endif
                 mainView.addSubview(iv)
                 timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags(rawValue: UInt(0)), queue: DispatchQueue.main) as! DispatchSource
                 //timer.schedule(deadline: DispatchTime.now(), repeating: DispatchTimeInterval.milliseconds(timeMilliseconds))
@@ -258,7 +265,11 @@ class SwiftProgress: NSObject {
                 timer.resume()
             }
         } else {
+        #if swift(>=4.2)
+            let ai = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        #else
             let ai = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        #endif
             ai.frame = CGRect(x: 21, y: 21, width: 36, height: 36)
             ai.startAnimating()
             mainView.addSubview(ai)
@@ -275,8 +286,11 @@ class SwiftProgress: NSObject {
             // change direction
             window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
         }
-        
+    #if swift(>=4.2)
+        window.windowLevel = UIWindow.Level.alert
+    #else
         window.windowLevel = UIWindowLevelAlert
+    #endif
         window.isHidden = false
         window.addSubview(mainView)
         windows.append(window)
@@ -327,8 +341,11 @@ class SwiftProgress: NSObject {
             // change direction
             window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
         }
-        
+    #if swift(>=4.2)
+        window.windowLevel = UIWindow.Level.alert
+    #else
         window.windowLevel = UIWindowLevelAlert
+    #endif
         window.isHidden = false
         window.addSubview(mainView)
         windows.append(window)
@@ -413,7 +430,11 @@ class SwiftProgress: NSObject {
             window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
         }
         
+    #if swift(>=4.2)
+        window.windowLevel = UIWindow.Level.alert
+    #else
         window.windowLevel = UIWindowLevelAlert
+    #endif
         window.center = rv!.center
         window.isHidden = false
         window.addSubview(mainView)
@@ -450,7 +471,11 @@ class SwiftProgress: NSObject {
         tapGesture.numberOfTapsRequired = hideHUDTaps
         window.addGestureRecognizer(tapGesture)
         
+    #if swift(>=4.2)
+        let ai = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+    #else
         let ai = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    #endif
         ai.frame = CGRect(x: 27, y: 15, width: 36, height: 36)
         ai.startAnimating()
         mainView.addSubview(ai)
@@ -493,7 +518,12 @@ class SwiftProgress: NSObject {
             window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
         }
         
+    #if swift(>=4.2)
+        window.windowLevel = UIWindow.Level.alert
+    #else
         window.windowLevel = UIWindowLevelAlert
+    #endif
+        
         window.center = rv!.center
         window.isHidden = false
         window.addSubview(mainView)
