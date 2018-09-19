@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Current_Version：0.0.6
+/// Current_Version：0.0.7
 /// Github: https://github.com/stackhou/SwiftProgressHUD
 
 private let yj_topBarTag: Int = 1001
